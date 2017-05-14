@@ -41,4 +41,10 @@ all =
                     |> element "item"
                     |> wclass "link"
                     |> Expect.equal (class "menu__list--item--link")
+        , test "with state" <|
+            \() ->
+                e
+                    |> element "item"
+                    |> wstate "active"
+                    |> Expect.equal (class "menu__list--item active")
         ]

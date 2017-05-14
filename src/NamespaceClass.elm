@@ -1,4 +1,4 @@
-module NamespaceClass exposing (ClassName, block, element, nclass, wclass)
+module NamespaceClass exposing (ClassName, block, element, nclass, wclass, wstate)
 
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
@@ -40,6 +40,20 @@ toString (ClassName namespace list) =
                     ++ List.foldr addElement "" list
 
 
+toStringWithState : String -> ClassName -> String
+toStringWithState state_ className =
+    let
+        state =
+            String.trim state_
+    in
+        case state of
+            "" ->
+                toString className
+
+            _ ->
+                toString className ++ " " ++ state
+
+
 nclass : ClassName -> Attribute msg
 nclass =
     class << toString
@@ -48,3 +62,8 @@ nclass =
 wclass : String -> ClassName -> Attribute msg
 wclass name =
     nclass << element name
+
+
+wstate : String -> ClassName -> Attribute msg
+wstate state =
+    class << (toStringWithState state)
