@@ -17,7 +17,7 @@ namespaced =
 
 
 inElement =
-    namespaced |> element "list"
+    element "list" namespaced
 
 
 all : Test
