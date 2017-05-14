@@ -1,4 +1,12 @@
-module NamespaceClass exposing (ClassName, block, element, nclass, wclass, wstate)
+module NamespaceClass
+    exposing
+        ( ClassName
+        , namespace
+        , element
+        , toClass
+        , withClass
+        , withState
+        )
 
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
@@ -8,8 +16,8 @@ type ClassName
     = ClassName String (List String)
 
 
-block : String -> ClassName
-block name =
+namespace : String -> ClassName
+namespace name =
     ClassName name []
 
 
@@ -54,16 +62,16 @@ toStringWithState state_ className =
                 toString className ++ " " ++ state
 
 
-nclass : ClassName -> Attribute msg
-nclass =
+toClass : ClassName -> Attribute msg
+toClass =
     class << toString
 
 
-wclass : String -> ClassName -> Attribute msg
-wclass name =
-    nclass << element name
+withClass : String -> ClassName -> Attribute msg
+withClass name =
+    toClass << element name
 
 
-wstate : String -> ClassName -> Attribute msg
-wstate state =
+withState : String -> ClassName -> Attribute msg
+withState state =
     class << (toStringWithState state)

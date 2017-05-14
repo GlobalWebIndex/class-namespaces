@@ -13,7 +13,7 @@ import NamespaceClass exposing (..)
 
 
 b =
-    block "menu"
+    namespace "menu"
 
 
 e =
@@ -25,26 +25,26 @@ all =
     describe "Namespace Class"
         [ test "block" <|
             \() ->
-                nclass b
+                toClass b
                     |> Expect.equal (class "menu")
         , test "element" <|
             \() ->
-                nclass e
+                toClass e
                     |> Expect.equal (class "menu__list")
         , test "wclass" <|
             \() ->
-                wclass "item" e
+                withClass "item" e
                     |> Expect.equal (class "menu__list--item")
         , test "more elements" <|
             \() ->
                 e
                     |> element "item"
-                    |> wclass "link"
+                    |> withClass "link"
                     |> Expect.equal (class "menu__list--item--link")
         , test "with state" <|
             \() ->
                 e
                     |> element "item"
-                    |> wstate "active"
+                    |> withState "active"
                     |> Expect.equal (class "menu__list--item active")
         ]
