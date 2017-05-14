@@ -4,7 +4,7 @@ module NamespaceClass
         , namespace
         , element
         , toClass
-        , withClass
+        , nested
         , withState
         )
 
@@ -67,8 +67,8 @@ toClass =
     class << toString
 
 
-withClass : String -> ClassName -> Attribute msg
-withClass name =
+nested : String -> ClassName -> Attribute msg
+nested name =
     toClass << element name
 
 

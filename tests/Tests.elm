@@ -33,13 +33,13 @@ all =
                     |> Expect.equal (class "menu__list")
         , test "wclass" <|
             \() ->
-                withClass "item" inElement
+                nested "item" inElement
                     |> Expect.equal (class "menu__list--item")
         , test "more elements" <|
             \() ->
                 inElement
                     |> element "item"
-                    |> withClass "link"
+                    |> nested "link"
                     |> Expect.equal (class "menu__list--item--link")
         , test "with state" <|
             \() ->
