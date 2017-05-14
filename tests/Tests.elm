@@ -12,12 +12,12 @@ import Html.Attributes exposing (class)
 import NamespaceClass exposing (..)
 
 
-b =
+namespaced =
     namespace "menu"
 
 
-e =
-    b |> element "list"
+inElement =
+    namespaced |> element "list"
 
 
 all : Test
@@ -25,25 +25,25 @@ all =
     describe "Namespace Class"
         [ test "block" <|
             \() ->
-                toClass b
+                toClass namespaced
                     |> Expect.equal (class "menu")
         , test "element" <|
             \() ->
-                toClass e
+                toClass inElement
                     |> Expect.equal (class "menu__list")
         , test "wclass" <|
             \() ->
-                withClass "item" e
+                withClass "item" inElement
                     |> Expect.equal (class "menu__list--item")
         , test "more elements" <|
             \() ->
-                e
+                inElement
                     |> element "item"
                     |> withClass "link"
                     |> Expect.equal (class "menu__list--item--link")
         , test "with state" <|
             \() ->
-                e
+                inElement
                     |> element "item"
                     |> withState "active"
                     |> Expect.equal (class "menu__list--item active")
