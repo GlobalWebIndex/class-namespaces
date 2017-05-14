@@ -45,6 +45,12 @@ all =
             \() ->
                 inElement
                     |> element "item"
-                    |> withState "active"
-                    |> Expect.equal (class "menu__list--item active")
+                    |> withStates ["active", "edited"]
+                    |> Expect.equal (class "menu__list--item active edited")
+        , test "with empty state" <|
+            \() ->
+                inElement
+                    |> element "item"
+                    |> withStates []
+                    |> Expect.equal (class "menu__list--item")
         ]

@@ -5,7 +5,7 @@ module NamespaceClass
         , element
         , toClass
         , nested
-        , withState
+        , withStates
         )
 
 import Html exposing (Attribute)
@@ -48,18 +48,9 @@ toString (ClassName namespace list) =
                     ++ List.foldr addElement "" list
 
 
-toStringWithState : String -> ClassName -> String
-toStringWithState state_ className =
-    let
-        state =
-            String.trim state_
-    in
-        case state of
-            "" ->
-                toString className
-
-            _ ->
-                toString className ++ " " ++ state
+toStringWithStates : (List String) -> ClassName -> String
+toStringWithStates states className =
+    toString className ++ List.foldl (\s acc -> acc ++ " " ++ s) "" states
 
 
 toClass : ClassName -> Attribute msg
@@ -72,6 +63,6 @@ nested name =
     toClass << element name
 
 
-withState : String -> ClassName -> Attribute msg
-withState state =
-    class << (toStringWithState state)
+withStates : (List String) -> ClassName -> Attribute msg
+withStates state =
+    class << (toStringWithStates state)
