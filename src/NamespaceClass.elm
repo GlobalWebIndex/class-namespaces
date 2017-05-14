@@ -8,22 +8,117 @@ module NamespaceClass
         , withStates
         )
 
+{-|
+
+# Type and Constructor
+
+@docs ClassName, namespace
+
+# Adding Elements
+
+@docs element
+
+# Turning to Attribute
+
+@docs toClass, element, nested, withStates
+
+-}
+
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
 
+-- Type
 
+{-| ClassName type describes selector used to style element.
+-}
 type ClassName
     = ClassName String (List String)
 
 
+{-| Construct [`ClassName`](#ClassName) with given namespace
+
+    >>> import Html.Attributes exposing (class)
+
+    >>> namespace "menu" |> toClass
+    class "menu"
+-}
 namespace : String -> ClassName
 namespace name =
     ClassName name []
 
 
+-- Add nested element to [`ClassName`](#ClassName)
+
+{-| Add element
+
+    >>> import Html.Attributes exposing (class)
+
+    >>> namespace "menu"
+    ... |> element "list"
+    ... |> toClass
+    class "menu__list"
+-}
 element : String -> ClassName -> ClassName
 element name (ClassName namespace list) =
     ClassName namespace <| name :: list
+
+
+{-| Convert [`ClassName`](#ClassName) to `Html.Attribute msg`
+
+    >>> import Html.Attributes exposing (class)
+
+    >>> namespace "menu"
+    ... |> toClass
+    class "menu"
+
+    >>> namespace "menu"
+    ... |> element "list"
+    ... |> toClass
+    class "menu__list"
+-}
+toClass : ClassName -> Attribute msg
+toClass =
+    class << toString
+
+
+{-| Add new element and turn to `Html.Attribute msg`
+
+    >>> import Html.Attributes exposing (class)
+
+    >>> namespace "menu"
+    ... |> nested "item"
+    class "menu__item"
+
+    >>> namespace "menu"
+    ... |> element "item"
+    ... |> nested "link"
+    class "menu__item--link"
+-}
+nested : String -> ClassName -> Attribute msg
+nested name =
+    toClass << element name
+
+
+{-| Add state to [`ClassName`](#ClassName) and turn to `Html.Attrinute msg`
+
+    >>> import Html.Attributes exposing (class)
+
+    >>> namespace "menu"
+    ... |> element "item"
+    ... |> withStates ["active", "highlighted"]
+    class "menu__item active highlighted"
+
+    >>> namespace "menu"
+    ... |> withStates []
+    class "menu"
+-}
+withStates : List String -> ClassName -> Attribute msg
+withStates state =
+    class << (toStringWithStates state)
+
+
+
+-- Private
 
 
 toString : ClassName -> String
@@ -48,21 +143,6 @@ toString (ClassName namespace list) =
                     ++ List.foldr addElement "" list
 
 
-toStringWithStates : (List String) -> ClassName -> String
+toStringWithStates : List String -> ClassName -> String
 toStringWithStates states className =
     toString className ++ List.foldl (\s acc -> acc ++ " " ++ s) "" states
-
-
-toClass : ClassName -> Attribute msg
-toClass =
-    class << toString
-
-
-nested : String -> ClassName -> Attribute msg
-nested name =
-    toClass << element name
-
-
-withStates : (List String) -> ClassName -> Attribute msg
-withStates state =
-    class << (toStringWithStates state)
