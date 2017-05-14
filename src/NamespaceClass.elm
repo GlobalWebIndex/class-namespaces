@@ -8,7 +8,7 @@ module NamespaceClass
         , withStates
         )
 
-{-|
+{-| Abstraction for generating convetional class names
 
 # Type and Constructor
 
@@ -18,7 +18,7 @@ module NamespaceClass
 
 @docs element
 
-# Turning to Attribute
+# Convert to Attribute
 
 @docs toClass, element, nested, withStates
 
@@ -27,7 +27,9 @@ module NamespaceClass
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
 
+
 -- Type
+
 
 {-| ClassName type describes selector used to style element.
 -}
@@ -47,7 +49,9 @@ namespace name =
     ClassName name []
 
 
--- Add nested element to [`ClassName`](#ClassName)
+
+-- Add nested element
+
 
 {-| Add element
 
@@ -61,6 +65,10 @@ namespace name =
 element : String -> ClassName -> ClassName
 element name (ClassName namespace list) =
     ClassName namespace <| name :: list
+
+
+
+-- Convert to Html.Attribute
 
 
 {-| Convert [`ClassName`](#ClassName) to `Html.Attribute msg`
