@@ -26,6 +26,7 @@ module NamespaceClass
 
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
+import Escape
 
 
 -- Type
@@ -46,7 +47,7 @@ type ClassName
 -}
 namespace : String -> ClassName
 namespace name =
-    ClassName name []
+    ClassName (Escape.sanitizeNamespace name) []
 
 
 
@@ -64,7 +65,7 @@ namespace name =
 -}
 element : String -> ClassName -> ClassName
 element name (ClassName namespace list) =
-    ClassName namespace <| name :: list
+    ClassName namespace <| (Escape.sanitize name) :: list
 
 
 
@@ -153,4 +154,4 @@ toString (ClassName namespace list) =
 
 toStringWithStates : List String -> ClassName -> String
 toStringWithStates states className =
-    toString className ++ List.foldl (\s acc -> acc ++ " " ++ s) "" states
+    toString className ++ List.foldl (\s acc -> acc ++ " " ++ (Escape.sanitize s)) "" states
