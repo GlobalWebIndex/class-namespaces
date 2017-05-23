@@ -47,7 +47,7 @@ type ClassName
 -}
 namespace : String -> ClassName
 namespace name =
-    ClassName (Escape.sanitize Escape.Namespace name) []
+    ClassName (Escape.sanitizeNamespace name) []
 
 
 
@@ -65,7 +65,7 @@ namespace name =
 -}
 element : String -> ClassName -> ClassName
 element name (ClassName namespace list) =
-    ClassName namespace <| (Escape.sanitize Escape.Element name) :: list
+    ClassName namespace <| (Escape.sanitize name) :: list
 
 
 
@@ -154,4 +154,4 @@ toString (ClassName namespace list) =
 
 toStringWithStates : List String -> ClassName -> String
 toStringWithStates states className =
-    toString className ++ List.foldl (\s acc -> acc ++ " " ++ (Escape.sanitize Escape.State s)) "" states
+    toString className ++ List.foldl (\s acc -> acc ++ " " ++ (Escape.sanitize s)) "" states

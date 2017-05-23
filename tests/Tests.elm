@@ -2,8 +2,6 @@ module Tests exposing (..)
 
 import Test exposing (..)
 import Expect
-import Fuzz exposing (list, int, tuple, string)
-import String
 import Html.Attributes exposing (class)
 
 
@@ -25,7 +23,7 @@ all : Test
 all =
     describe "All tests"
         [ namespaceClassTest
-        , sanitizeTest
+        , escapeTest
         ]
 
 
@@ -65,27 +63,27 @@ namespaceClassTest =
         ]
 
 
-sanitizeTest : Test
-sanitizeTest =
-    describe "Sanitize string"
+escapeTest : Test
+escapeTest =
+    describe "Escape"
         [ test "namespace - remove invalid chars" <|
             \() ->
-                Escape.sanitize Escape.Namespace "invalid string ěščěšč"
+                Escape.sanitizeNamespace "invalid string ěščěšč"
                     |> Expect.equal "invalidstring"
         , test "namespace - remove invalid and keep '__'" <|
             \() ->
-                Escape.sanitize Escape.Namespace " invalid string__module "
+                Escape.sanitizeNamespace " invalid string__module "
                     |> Expect.equal "invalidstring__module"
         , test "namespace - class name valid against standards" <|
             \() ->
-                Escape.sanitize Escape.Namespace " 98invalid st-ring__module"
+                Escape.sanitizeNamespace " 98invalid st-ring__module"
                     |> Expect.equal "invalidst-ring__module"
-        , test "element - remove all invalid, keep '-' and '_'" <|
+        , test "sanitize - remove all invalid, keep '-' and '_'" <|
             \() ->
-                Escape.sanitize Escape.Element " 98invalid st-ring__name"
-                    |> Expect.equal "invalidst-ringname"
-        , test "state - remove all invalid, keep '-' and '_'" <|
-            \() ->
-                Escape.sanitize Escape.State " inva_lid st-ring__name "
+                Escape.sanitize " inva_lid st-ring__name "
                     |> Expect.equal "inva_lidst-ringname"
+        , test "sanitize - remove all invalid, multi '_' or '-', keep '-' and '_'" <|
+            \() ->
+                Escape.sanitize " inva_lid st-ring__name--some-end "
+                    |> Expect.equal "inva_lidst-ringnamesome-end"
         ]

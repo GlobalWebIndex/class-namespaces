@@ -1,4 +1,4 @@
-module Escape exposing (SanitizeLevel(..), sanitize)
+module Escape exposing (sanitizeNamespace, sanitize)
 
 import Regex exposing (Regex)
 
@@ -7,49 +7,35 @@ type alias Replacement =
     String
 
 
-type SanitizeLevel
-    = Namespace
-    | Element
-    | State
+sanitizeNamespace : String -> String
+sanitizeNamespace =
+    sanitize_
 
 
-sanitizeRegex : Regex
-sanitizeRegex =
-    Regex.regex "[^a-z0-9\\-_]"
-        |> Regex.caseInsensitive
-
-
-sanitize : SanitizeLevel -> String -> String
-sanitize level str =
-    case level of
-        Namespace ->
-            sanitize_ sanitizeRegex "" str
-
-        Element ->
-            sanitize_ sanitizeRegex "" str
-                |> removeDoubleUnderscore
-
-        State ->
-            sanitize_ sanitizeRegex "" str
-                |> removeDoubleUnderscore
-
-
-removeDoubleUnderscore : String -> String
-removeDoubleUnderscore str =
+sanitize : String -> String
+sanitize str =
     let
         regex =
-            Regex.regex "_{2,}" |> Regex.caseInsensitive
+            Regex.regex "_{2,}|-{2,}" |> Regex.caseInsensitive
     in
-        Regex.replace Regex.All regex (\_ -> "") str
+        sanitize_ str
+            |> Regex.replace Regex.All regex (\_ -> "")
 
 
-sanitize_ : Regex -> Replacement -> String -> String
-sanitize_ regex replacement str =
+sanitize_ : String -> String
+sanitize_ str =
     let
+        sanitizeRegex =
+            Regex.regex "[^a-z0-9\\-_]"
+                |> Regex.caseInsensitive
+
         leadNumbers =
             Regex.regex "^[\\d]+"
                 |> Regex.caseInsensitive
+
+        replacement =
+            (\_ -> "")
     in
         str
-            |> Regex.replace Regex.All regex (\_ -> replacement)
-            |> Regex.replace Regex.All leadNumbers (\_ -> "")
+            |> Regex.replace Regex.All sanitizeRegex replacement
+            |> Regex.replace Regex.All leadNumbers replacement
