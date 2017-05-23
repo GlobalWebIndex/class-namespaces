@@ -8,7 +8,8 @@ module WeakCss
         , withStates
         )
 
-{-| Abstraction for generating convetional class names
+{-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
+style class names.
 
 # Type and Constructor
 
@@ -32,13 +33,16 @@ import Escape
 -- Type
 
 
-{-| ClassName type describes selector used to style element.
+{-| ClassName type describes class selector used to style element.
+
+All strings are sanitized to prevent missuse and odd resulting selectors.
+**It's highly recommended to avoid ` ` `__` and `--` in arguments though.**
 -}
 type ClassName
     = ClassName String (List String)
 
 
-{-| Construct [`ClassName`](#ClassName) with given namespace
+{-| Construct [`ClassName`](#ClassName) with given namespace.
 
     >>> import Html.Attributes exposing (class)
 
@@ -51,7 +55,7 @@ namespace name =
 
 
 
--- Add nested element
+-- Add nested element to element path.
 
 
 {-| Add element
@@ -72,7 +76,7 @@ element name (ClassName namespace list) =
 -- Convert to Html.Attribute
 
 
-{-| Convert [`ClassName`](#ClassName) to `Html.Attribute msg`
+{-| Convert [`ClassName`](#ClassName) to `Html.Attribute msg`.
 
     >>> import Html.Attributes exposing (class)
 
@@ -90,7 +94,7 @@ toClass =
     class << toString
 
 
-{-| Add new element and turn to `Html.Attribute msg`
+{-| Add new element and convert to `Html.Attribute msg`.
 
     >>> import Html.Attributes exposing (class)
 
@@ -108,7 +112,7 @@ nested name =
     toClass << element name
 
 
-{-| Add state to [`ClassName`](#ClassName) and turn to `Html.Attrinute msg`
+{-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
 
     >>> import Html.Attributes exposing (class)
 

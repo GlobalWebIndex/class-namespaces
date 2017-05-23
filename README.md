@@ -40,7 +40,6 @@ view =
         itemClass =
             navClass
                 |> WeakCss.element "item"
-
     in
         Html.aside
             [ moduleClass |> WeakCss.toClass ]
