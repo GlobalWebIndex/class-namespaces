@@ -47,8 +47,8 @@ view =
                 [ navClass |> WeakCss.toClass ]
                 [ Html.ul
                     [ navClass |> nested "list" ]
-                    [ Html.li [ itemClass |> WeakCss.withState [] ] [ Html.text "first item"]
-                    , Html.li [ itemClass |> WeakCss.withState ["active"] ] [ Html.text "second active item"]
+                    [ Html.li [ itemClass |> WeakCss.withStates [] ] [ Html.text "first item"]
+                    , Html.li [ itemClass |> WeakCss.withStates ["active"] ] [ Html.text "second active item"]
                     ]
                 ]
             ]
