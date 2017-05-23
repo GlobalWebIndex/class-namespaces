@@ -1,0 +1,30 @@
+{
+  "name": "class-namespaces",
+  "version": "1.0.0",
+  "description": "Elm module for building HTML classes based on weak-css rules",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node_modules/elm-doc-test/bin/cli.js && node_modules/elm-test/bin/elm-test tests/Doc/Main.elm",
+    "test:w": "node_modules/elm-doc-test/bin/cli.js && node_modules/elm-test/bin/elm-test tests/Doc/Main.elm --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GlobalWebIndex/class-namespaces/"
+  },
+  "keywords": [
+    "Elm",
+    "style",
+    "namespace",
+    "weak",
+    "css"
+  ],
+  "author": "GWI",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "elm-doc-test": "^2.2.3",
+    "elm-test": "^0.18.2"
+  }
+}
