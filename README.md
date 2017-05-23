@@ -3,8 +3,12 @@
 [![Build Status](https://travis-ci.org/GlobalWebIndex/class-namespaces.svg?branch=master)](https://travis-ci.org/GlobalWebIndex/class-namespaces)
 
 Abstraction for easier work with conventional namespaced class names in Elm + TEA.
-Currently only our in-house [WeakCss](https://github.com/GlobalWebIndex/weak-css) style is support.
+Currently only our in-house [WeakCss](https://github.com/GlobalWebIndex/weak-css) style is supported.
 We're considering adding classic [BEM](http://getbem.com/) style support in future though.
+
+**This package is highly experimental and might change a lot over time.**
+
+Feedback and contributions to both code and documentation are very welcome.
 
 ## Installation
 
