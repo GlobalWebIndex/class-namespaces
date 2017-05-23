@@ -16,7 +16,7 @@ namespaced =
 
 
 inElement =
-    element "list" namespaced
+    addElement "list" namespaced
 
 
 all : Test
@@ -45,19 +45,19 @@ namespaceClassTest =
         , test "more elements" <|
             \() ->
                 inElement
-                    |> element "item"
+                    |> addElement "item"
                     |> nested "link"
                     |> Expect.equal (class "menu__list--item--link")
         , test "with state" <|
             \() ->
                 inElement
-                    |> element "item"
+                    |> addElement "item"
                     |> withStates [ "active", "edited" ]
                     |> Expect.equal (class "menu__list--item active edited")
         , test "with empty state" <|
             \() ->
                 inElement
-                    |> element "item"
+                    |> addElement "item"
                     |> withStates []
                     |> Expect.equal (class "menu__list--item")
         ]

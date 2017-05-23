@@ -2,7 +2,7 @@ module WeakCss
     exposing
         ( ClassName
         , namespace
-        , element
+        , addElement
         , toClass
         , nested
         , withStates
@@ -17,11 +17,11 @@ style class names.
 
 # Adding Elements
 
-@docs element
+@docs addElement
 
 # Convert to Attribute
 
-@docs toClass, element, nested, withStates
+@docs toClass, nested, withStates
 
 -}
 
@@ -63,12 +63,12 @@ namespace name =
     >>> import Html.Attributes exposing (class)
 
     >>> namespace "menu"
-    ... |> element "list"
+    ... |> addElement "list"
     ... |> toClass
     class "menu__list"
 -}
-element : String -> ClassName -> ClassName
-element name (ClassName namespace list) =
+addElement : String -> ClassName -> ClassName
+addElement name (ClassName namespace list) =
     ClassName namespace <| (Escape.sanitize name) :: list
 
 
@@ -85,7 +85,7 @@ element name (ClassName namespace list) =
     class "menu"
 
     >>> namespace "menu"
-    ... |> element "list"
+    ... |> addElement "list"
     ... |> toClass
     class "menu__list"
 -}
@@ -103,7 +103,7 @@ toClass =
     class "menu__item"
 
     >>> namespace "menu"
-    ... |> element "item"
+    ... |> addElement "item"
     ... |> nested "link"
     class "menu__item--link"
 -}
@@ -117,7 +117,7 @@ nested name =
     >>> import Html.Attributes exposing (class)
 
     >>> namespace "menu"
-    ... |> element "item"
+    ... |> addElement "item"
     ... |> withStates ["active", "highlighted"]
     class "menu__item active highlighted"
 

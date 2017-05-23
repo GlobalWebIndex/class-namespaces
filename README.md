@@ -35,11 +35,11 @@ view =
     let
         navClass =
             moduleClass
-                |> WeakCss.element "nav"
+                |> WeakCss.addElement "nav"
 
         itemClass =
             navClass
-                |> WeakCss.element "item"
+                |> WeakCss.addElement "item"
     in
         Html.aside
             [ moduleClass |> WeakCss.toClass ]
