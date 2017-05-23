@@ -36,7 +36,7 @@ import Escape
 {-| ClassName type describes class selector used to style element.
 
 All strings are sanitized to prevent missuse and odd resulting selectors.
-**It's highly recommended to avoid ` ` `__` and `--` in arguments though.**
+**It's highly recommended to avoid spaces, `__` and `--` in arguments though.**
 -}
 type ClassName
     = ClassName String (List String)
