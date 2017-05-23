@@ -2,13 +2,14 @@ module WeakCss
     exposing
         ( ClassName
         , namespace
-        , element
+        , addElement
         , toClass
         , nested
         , withStates
         )
 
-{-| Abstraction for generating convetional class names
+{-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
+style class names.
 
 # Type and Constructor
 
@@ -16,11 +17,11 @@ module WeakCss
 
 # Adding Elements
 
-@docs element
+@docs addElement
 
 # Convert to Attribute
 
-@docs toClass, element, nested, withStates
+@docs toClass, nested, withStates
 
 -}
 
@@ -32,13 +33,16 @@ import Escape
 -- Type
 
 
-{-| ClassName type describes selector used to style element.
+{-| ClassName type describes class selector used to style element.
+
+All strings are sanitized to prevent missuse and odd resulting selectors.
+**It's highly recommended to avoid spaces, `__` and `--` in arguments though.**
 -}
 type ClassName
     = ClassName String (List String)
 
 
-{-| Construct [`ClassName`](#ClassName) with given namespace
+{-| Construct [`ClassName`](#ClassName) with given namespace.
 
     >>> import Html.Attributes exposing (class)
 
@@ -51,7 +55,7 @@ namespace name =
 
 
 
--- Add nested element
+-- Add nested element to element path.
 
 
 {-| Add element
@@ -59,12 +63,12 @@ namespace name =
     >>> import Html.Attributes exposing (class)
 
     >>> namespace "menu"
-    ... |> element "list"
+    ... |> addElement "list"
     ... |> toClass
     class "menu__list"
 -}
-element : String -> ClassName -> ClassName
-element name (ClassName namespace list) =
+addElement : String -> ClassName -> ClassName
+addElement name (ClassName namespace list) =
     ClassName namespace <| (Escape.sanitize name) :: list
 
 
@@ -72,7 +76,7 @@ element name (ClassName namespace list) =
 -- Convert to Html.Attribute
 
 
-{-| Convert [`ClassName`](#ClassName) to `Html.Attribute msg`
+{-| Convert [`ClassName`](#ClassName) to `Html.Attribute msg`.
 
     >>> import Html.Attributes exposing (class)
 
@@ -81,7 +85,7 @@ element name (ClassName namespace list) =
     class "menu"
 
     >>> namespace "menu"
-    ... |> element "list"
+    ... |> addElement "list"
     ... |> toClass
     class "menu__list"
 -}
@@ -90,7 +94,7 @@ toClass =
     class << toString
 
 
-{-| Add new element and turn to `Html.Attribute msg`
+{-| Add new element and convert to `Html.Attribute msg`.
 
     >>> import Html.Attributes exposing (class)
 
@@ -99,21 +103,21 @@ toClass =
     class "menu__item"
 
     >>> namespace "menu"
-    ... |> element "item"
+    ... |> addElement "item"
     ... |> nested "link"
     class "menu__item--link"
 -}
 nested : String -> ClassName -> Attribute msg
 nested name =
-    toClass << element name
+    toClass << addElement name
 
 
-{-| Add state to [`ClassName`](#ClassName) and turn to `Html.Attrinute msg`
+{-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
 
     >>> import Html.Attributes exposing (class)
 
     >>> namespace "menu"
-    ... |> element "item"
+    ... |> addElement "item"
     ... |> withStates ["active", "highlighted"]
     class "menu__item active highlighted"
 
