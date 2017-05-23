@@ -7,7 +7,7 @@ import Html.Attributes exposing (class)
 
 -- lib
 
-import NamespaceClass exposing (..)
+import WeakCss exposing (..)
 import Escape
 
 
