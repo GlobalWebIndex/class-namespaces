@@ -109,7 +109,7 @@ toClass =
 -}
 nested : String -> ClassName -> Attribute msg
 nested name =
-    toClass << element name
+    toClass << addElement name
 
 
 {-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
