@@ -3,10 +3,6 @@ module Escape exposing (sanitizeNamespace, sanitize)
 import Regex exposing (Regex)
 
 
-type alias Replacement =
-    String
-
-
 sanitizeNamespace : String -> String
 sanitizeNamespace =
     sanitize_
