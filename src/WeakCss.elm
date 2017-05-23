@@ -1,4 +1,4 @@
-module NamespaceClass
+module WeakCss
     exposing
         ( ClassName
         , namespace
