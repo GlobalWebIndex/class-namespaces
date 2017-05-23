@@ -20,7 +20,7 @@ $ elm package install GlobalWebIndex/class-namespaces
 
 ## Usage
 
-Just simply use `WeakCss` module's API instead of directly usin `Html.Attributes.class`.
+Just simply use `WeakCss` module's API instead of using `Html.Attributes.class` directly.
 
 ```elm
 import Html exposing (Html, Attribute)
