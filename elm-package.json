@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "helpful summary of your project, less than 80 characters",
-    "repository": "https://github.com/user/project.git",
+    "summary": "Abstraction for easier work with conventional namespaced class names.",
+    "repository": "https://github.com/GlobalWebIndex/class-namespaces.git",
     "license": "BSD3",
     "source-directories": [
         "src"
