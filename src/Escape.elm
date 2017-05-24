@@ -14,8 +14,8 @@ sanitizeNamespace str =
             Regex.regex "^[\\d]+"
                 |> Regex.caseInsensitive
 
-        replacement =
-            (\_ -> "")
+        replacement _ =
+            ""
     in
         str
             |> Regex.replace Regex.All sanitizeRegex replacement
