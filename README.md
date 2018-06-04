@@ -22,16 +22,22 @@ $ elm package install GlobalWebIndex/class-namespaces
 
 Just simply use `WeakCss` module's API instead of using `Html.Attributes.class` directly.
 
+[Demo](https://ellie-app.com/qv3HzPr3Jta1).
+
 ```elm
-import Html exposing (Html, Attribute)
+module Main exposing (..)
+
+import Html exposing (Attribute, Html)
 import WeakCss exposing (ClassName)
+
 
 moduleClass : ClassName
 moduleClass =
     WeakCss.namespace "menu"
 
-view : Html msg
-view =
+
+main : Html msg
+main =
     let
         navClass =
             moduleClass
@@ -41,17 +47,17 @@ view =
             navClass
                 |> WeakCss.addElement "item"
     in
-        Html.aside
-            [ moduleClass |> WeakCss.toClass ]
-            [ Html.nav
-                [ navClass |> WeakCss.toClass ]
-                [ Html.ul
-                    [ navClass |> nested "list" ]
-                    [ Html.li [ itemClass |> WeakCss.withStates [] ] [ Html.text "first item"]
-                    , Html.li [ itemClass |> WeakCss.withStates ["active"] ] [ Html.text "second active item"]
-                    ]
+    Html.aside
+        [ moduleClass |> WeakCss.toClass ]
+        [ Html.nav
+            [ navClass |> WeakCss.toClass ]
+            [ Html.ul
+                [ navClass |> WeakCss.nested "list" ]
+                [ Html.li [ itemClass |> WeakCss.withStates [] ] [ Html.text "first item" ]
+                , Html.li [ itemClass |> WeakCss.withStates [ "active" ] ] [ Html.text "second active item" ]
                 ]
             ]
+        ]
 ```
 
 This is structure of corresponding CSS file written in [SCSS](http://sass-lang.com/):
