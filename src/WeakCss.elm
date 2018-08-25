@@ -1,23 +1,23 @@
-module WeakCss
-    exposing
-        ( ClassName
-        , namespace
-        , addElement
-        , toClass
-        , nested
-        , withStates
-        )
+module WeakCss exposing
+    ( ClassName, namespace
+    , addElement
+    , toClass, nested, withStates
+    , nestedList
+    )
 
 {-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
 style class names.
+
 
 # Type and Constructor
 
 @docs ClassName, namespace
 
+
 # Adding Elements
 
 @docs addElement
+
 
 # Convert to Attribute
 
@@ -25,9 +25,10 @@ style class names.
 
 -}
 
+import Escape
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
-import Escape
+
 
 
 -- Type
@@ -37,6 +38,7 @@ import Escape
 
 All strings are sanitized to prevent missuse and odd resulting selectors.
 **It's highly recommended to avoid spaces, `__` and `--` in arguments though.**
+
 -}
 type ClassName
     = ClassName String (List String)
@@ -48,6 +50,7 @@ type ClassName
 
     >>> namespace "menu" |> toClass
     class "menu"
+
 -}
 namespace : String -> ClassName
 namespace name =
@@ -66,10 +69,11 @@ namespace name =
     ... |> addElement "list"
     ... |> toClass
     class "menu__list"
+
 -}
 addElement : String -> ClassName -> ClassName
-addElement name (ClassName namespace list) =
-    ClassName namespace <| (Escape.sanitize name) :: list
+addElement name (ClassName classNamespace list) =
+    ClassName classNamespace <| Escape.sanitize name :: list
 
 
 
@@ -88,6 +92,7 @@ addElement name (ClassName namespace list) =
     ... |> addElement "list"
     ... |> toClass
     class "menu__list"
+
 -}
 toClass : ClassName -> Attribute msg
 toClass =
@@ -106,10 +111,31 @@ toClass =
     ... |> addElement "item"
     ... |> nested "link"
     class "menu__item--link"
+
 -}
 nested : String -> ClassName -> Attribute msg
 nested name =
     toClass << addElement name
+
+
+{-| Add new elements from list and convert it all to `Html.Attribute msg`.
+
+    >>> import Html.Attributes exposing (class)
+
+    >>> namespace "menu"
+    ... |> nestedList ["item", "link"]
+    class "menu__item--link"
+
+    >>> namespace "menu"
+    ... |> nestedList ["item"]
+    class "menu__item"
+
+-}
+nestedList : List String -> ClassName -> Attribute msg
+nestedList listToAdd className =
+    List.map Escape.sanitize listToAdd
+        |> List.foldl addElement className
+        |> toClass
 
 
 {-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
@@ -124,10 +150,11 @@ nested name =
     >>> namespace "menu"
     ... |> withStates []
     class "menu"
+
 -}
 withStates : List String -> ClassName -> Attribute msg
 withStates state =
-    class << (toStringWithStates state)
+    class << toStringWithStates state
 
 
 
@@ -135,27 +162,28 @@ withStates state =
 
 
 toString : ClassName -> String
-toString (ClassName namespace list) =
+toString (ClassName classNamespace list) =
     let
         spacer acc =
             if String.isEmpty acc then
                 ""
+
             else
                 "--"
 
-        addElement name acc =
-            acc ++ (spacer acc) ++ name
+        foldElement name acc =
+            acc ++ spacer acc ++ name
     in
-        case list of
-            [] ->
-                namespace
+    case list of
+        [] ->
+            classNamespace
 
-            head :: tail ->
-                namespace
-                    ++ "__"
-                    ++ List.foldr addElement "" list
+        head :: tail ->
+            classNamespace
+                ++ "__"
+                ++ List.foldr foldElement "" list
 
 
 toStringWithStates : List String -> ClassName -> String
 toStringWithStates states className =
-    toString className ++ List.foldl (\s acc -> acc ++ " " ++ (Escape.sanitize s)) "" states
+    toString className ++ List.foldl (\s acc -> acc ++ " " ++ Escape.sanitize s) "" states

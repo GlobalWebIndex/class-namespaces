@@ -1,32 +1,28 @@
-module Escape exposing (sanitizeNamespace, sanitize)
+module Escape exposing (sanitize, sanitizeNamespace)
 
 import Regex exposing (Regex)
 
 
+caseInsensitiveOption : Regex.Options
+caseInsensitiveOption =
+    { caseInsensitive = True
+    , multiline = False
+    }
+
+
+removeByRegex regex string =
+    Regex.fromStringWith caseInsensitiveOption regex
+        |> Maybe.map (\r -> Regex.replace r (\_ -> "") string)
+        |> Maybe.withDefault string
+
+
 sanitizeNamespace : String -> String
 sanitizeNamespace str =
-    let
-        sanitizeRegex =
-            Regex.regex "[^a-z0-9\\-_]"
-                |> Regex.caseInsensitive
-
-        leadNumbers =
-            Regex.regex "^[\\d]+"
-                |> Regex.caseInsensitive
-
-        replacement _ =
-            ""
-    in
-        str
-            |> Regex.replace Regex.All sanitizeRegex replacement
-            |> Regex.replace Regex.All leadNumbers replacement
+    str
+        |> removeByRegex "[^a-z0-9\\-_]"
+        |> removeByRegex "^[\\d]+"
 
 
 sanitize : String -> String
 sanitize str =
-    let
-        regex =
-            Regex.regex "_{2,}|-{2,}" |> Regex.caseInsensitive
-    in
-        sanitizeNamespace str
-            |> Regex.replace Regex.All regex (\_ -> "")
+    removeByRegex "_{2,}|-{2,}" <| sanitizeNamespace str
