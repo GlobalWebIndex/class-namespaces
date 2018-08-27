@@ -2,7 +2,7 @@ module WeakCss exposing
     ( ClassName, namespace
     , addElement
     , toClass, nested, withStates
-    , nestedList
+    , nestMany
     )
 
 {-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
@@ -123,16 +123,16 @@ nested name =
     >>> import Html.Attributes exposing (class)
 
     >>> namespace "menu"
-    ... |> nestedList ["item", "link"]
+    ... |> nestMany ["item", "link"]
     class "menu__item--link"
 
     >>> namespace "menu"
-    ... |> nestedList ["item"]
+    ... |> nestMany ["item"]
     class "menu__item"
 
 -}
-nestedList : List String -> ClassName -> Attribute msg
-nestedList listToAdd className =
+nestMany : List String -> ClassName -> Attribute msg
+nestMany listToAdd className =
     List.map Escape.sanitize listToAdd
         |> List.foldl addElement className
         |> toClass
