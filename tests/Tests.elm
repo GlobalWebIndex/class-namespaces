@@ -1,14 +1,12 @@
-module Tests exposing (..)
-
-import Test exposing (..)
-import Expect
-import Html.Attributes exposing (class)
-
+module Tests exposing (escapeTest, inElement, namespaceClassTest, namespaced)
 
 -- lib
 
-import WeakCss exposing (..)
 import Escape
+import Expect
+import Html.Attributes exposing (class)
+import Test exposing (..)
+import WeakCss exposing (..)
 
 
 namespaced =
@@ -17,14 +15,6 @@ namespaced =
 
 inElement =
     addElement "list" namespaced
-
-
-all : Test
-all =
-    describe "All tests"
-        [ namespaceClassTest
-        , escapeTest
-        ]
 
 
 namespaceClassTest : Test
