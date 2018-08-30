@@ -87,4 +87,17 @@ escapeTest =
             \() ->
                 Escape.sanitize " inva_lid st-ring__name--some-end "
                     |> Expect.equal "inva_lidst-ringnamesome-end"
+        , test "CaPITAL to lowercase" <|
+            \() ->
+                Escape.sanitize "CaPITAL"
+                    |> Expect.equal "capital"
+
+        , test "sanitize - multiline" <|
+            \() ->
+                Escape.sanitize
+                """
+                Lorem Ipsum
+                -dolor sit amet
+                """
+                  |> Expect.equal "loremipsum-dolorsitamet"
         ]
