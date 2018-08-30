@@ -2,7 +2,7 @@ module WeakCss exposing
     ( ClassName, namespace
     , addElement
     , toClass, nested, withStates
-    , nestMany
+    , addMany, nestMany
     )
 
 {-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
@@ -76,6 +76,22 @@ addElement name (ClassName classNamespace list) =
     ClassName classNamespace <| Escape.sanitize name :: list
 
 
+{-| Add new elements from list.
+
+    >>> import Html.Attributes exposing (class)
+
+    >>> namespace "menu"
+    ... |> addMany ["item", "link"]
+    ... |> toClass
+    class "menu__item--link"
+
+-}
+addMany : List String -> ClassName -> ClassName
+addMany listToAdd className =
+    List.map Escape.sanitize listToAdd
+        |> List.foldl addElement className
+
+
 
 -- Convert to Html.Attribute
 
@@ -132,10 +148,8 @@ nested name =
 
 -}
 nestMany : List String -> ClassName -> Attribute msg
-nestMany listToAdd className =
-    List.map Escape.sanitize listToAdd
-        |> List.foldl addElement className
-        |> toClass
+nestMany listToAdd =
+    toClass << addMany listToAdd
 
 
 {-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
