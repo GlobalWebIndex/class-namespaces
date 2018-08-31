@@ -16,12 +16,12 @@ style class names.
 
 # Adding Elements
 
-@docs addElement
+@docs addElemen, addMany
 
 
 # Convert to Attribute
 
-@docs toClass, nested, withStates
+@docs toClass, nested, nestMany, withStates
 
 -}
 
