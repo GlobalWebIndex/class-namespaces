@@ -1,6 +1,6 @@
 module WeakCss exposing
     ( ClassName, namespace
-    , add , addMany
+    , add, addMany
     , toClass, nest, nestMany, withStates
     )
 

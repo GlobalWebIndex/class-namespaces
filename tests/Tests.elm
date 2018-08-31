@@ -91,13 +91,12 @@ escapeTest =
             \() ->
                 Escape.sanitize "CaPITAL"
                     |> Expect.equal "capital"
-
         , test "sanitize - multiline" <|
             \() ->
                 Escape.sanitize
-                """
+                    """
                 Lorem Ipsum
                 -dolor sit amet
                 """
-                  |> Expect.equal "loremipsum-dolorsitamet"
+                    |> Expect.equal "loremipsum-dolorsitamet"
         ]
