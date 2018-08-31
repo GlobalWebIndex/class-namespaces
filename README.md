@@ -22,8 +22,6 @@ $ elm package install GlobalWebIndex/class-namespaces
 
 Just simply use `WeakCss` module's API instead of using `Html.Attributes.class` directly.
 
-[Demo](https://ellie-app.com/qv3HzPr3Jta1).
-
 ```elm
 module Main exposing (..)
 
@@ -41,18 +39,18 @@ main =
     let
         navClass =
             moduleClass
-                |> WeakCss.addElement "nav"
+                |> WeakCss.add "nav"
 
         itemClass =
             navClass
-                |> WeakCss.addElement "item"
+                |> WeakCss.add "item"
     in
     Html.aside
         [ moduleClass |> WeakCss.toClass ]
         [ Html.nav
             [ navClass |> WeakCss.toClass ]
             [ Html.ul
-                [ navClass |> WeakCss.nested "list" ]
+                [ navClass |> WeakCss.nest "list" ]
                 [ Html.li [ itemClass |> WeakCss.withStates [] ] [ Html.text "first item" ]
                 , Html.li [ itemClass |> WeakCss.withStates [ "active" ] ] [ Html.text "second active item" ]
                 ]

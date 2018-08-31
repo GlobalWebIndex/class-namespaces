@@ -14,7 +14,7 @@ namespaced =
 
 
 inElement =
-    addElement "list" namespaced
+    add "list" namespaced
 
 
 namespaceClassTest : Test
@@ -30,7 +30,7 @@ namespaceClassTest =
                     |> Expect.equal (class "menu__list")
         , test "wclass" <|
             \() ->
-                nested "item" inElement
+                nest "item" inElement
                     |> Expect.equal (class "menu__list--item")
         , test "add multiple elements at once (addMany)" <|
             \() ->
@@ -41,8 +41,8 @@ namespaceClassTest =
         , test "more elements" <|
             \() ->
                 inElement
-                    |> addElement "item"
-                    |> nested "link"
+                    |> add "item"
+                    |> nest "link"
                     |> Expect.equal (class "menu__list--item--link")
         , test "multiple nested elements added at once (nestMany)" <|
             \() ->
@@ -52,13 +52,13 @@ namespaceClassTest =
         , test "with state" <|
             \() ->
                 inElement
-                    |> addElement "item"
+                    |> add "item"
                     |> withStates [ "active", "edited" ]
                     |> Expect.equal (class "menu__list--item active edited")
         , test "with empty state" <|
             \() ->
                 inElement
-                    |> addElement "item"
+                    |> add "item"
                     |> withStates []
                     |> Expect.equal (class "menu__list--item")
         ]
@@ -91,13 +91,12 @@ escapeTest =
             \() ->
                 Escape.sanitize "CaPITAL"
                     |> Expect.equal "capital"
-
         , test "sanitize - multiline" <|
             \() ->
                 Escape.sanitize
-                """
+                    """
                 Lorem Ipsum
                 -dolor sit amet
                 """
-                  |> Expect.equal "loremipsum-dolorsitamet"
+                    |> Expect.equal "loremipsum-dolorsitamet"
         ]
