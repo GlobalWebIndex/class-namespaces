@@ -1,4 +1,4 @@
 {
-    "root": "../src",
-    "tests": ["WeakCss"]
-  }
+  "root": "../src",
+  "tests": ["WeakCss"]
+}
