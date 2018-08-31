@@ -12,7 +12,7 @@ caseInsensitiveOption =
 
 removeByRegex regex string =
     Regex.fromStringWith caseInsensitiveOption regex
-        |> Maybe.map (\r -> Regex.replace r (\_ -> "") string)
+        |> Maybe.map (\r -> String.toLower <| Regex.replace r (\_ -> "") string)
         |> Maybe.withDefault string
 
 
