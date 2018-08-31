@@ -46,10 +46,11 @@ type ClassName
 
 {-| Construct [`ClassName`](#ClassName) with given namespace.
 
-    >>> import Html.Attributes exposing (class)
+    import Html.Attributes exposing (class)
 
-    >>> namespace "menu" |> toClass
-    class "menu"
+    namespace "menu" |> toClass
+
+    --> class "menu"
 
 -}
 namespace : String -> ClassName
@@ -63,12 +64,13 @@ namespace name =
 
 {-| Add element
 
-    >>> import Html.Attributes exposing (class)
+    import Html.Attributes exposing (class)
 
-    >>> namespace "menu"
-    ... |> addElement "list"
-    ... |> toClass
-    class "menu__list"
+    namespace "menu"
+        |> addElement "list"
+        |> toClass
+
+    --> class "menu__list"
 
 -}
 addElement : String -> ClassName -> ClassName
@@ -78,12 +80,13 @@ addElement name (ClassName classNamespace list) =
 
 {-| Add new elements from list.
 
-    >>> import Html.Attributes exposing (class)
+    import Html.Attributes exposing (class)
 
-    >>> namespace "menu"
-    ... |> addMany ["item", "link"]
-    ... |> toClass
-    class "menu__item--link"
+    namespace "menu"
+        |> addMany ["item", "link"]
+        |> toClass
+
+    --> class "menu__item--link"
 
 -}
 addMany : List String -> ClassName -> ClassName
@@ -98,16 +101,16 @@ addMany listToAdd className =
 
 {-| Convert [`ClassName`](#ClassName) to `Html.Attribute msg`.
 
-    >>> import Html.Attributes exposing (class)
+    import Html.Attributes exposing (class)
 
-    >>> namespace "menu"
-    ... |> toClass
-    class "menu"
+    namespace "menu"
+        |> toClass
+    --> class "menu"
 
-    >>> namespace "menu"
-    ... |> addElement "list"
-    ... |> toClass
-    class "menu__list"
+    namespace "menu"
+        |> addElement "list"
+        |> toClass
+    --> class "menu__list"
 
 -}
 toClass : ClassName -> Attribute msg
@@ -117,16 +120,16 @@ toClass =
 
 {-| Add new element and convert to `Html.Attribute msg`.
 
-    >>> import Html.Attributes exposing (class)
+    import Html.Attributes exposing (class)
 
-    >>> namespace "menu"
-    ... |> nested "item"
-    class "menu__item"
+    namespace "menu"
+        |> nested "item"
+    --> class "menu__item"
 
-    >>> namespace "menu"
-    ... |> addElement "item"
-    ... |> nested "link"
-    class "menu__item--link"
+    namespace "menu"
+        |> addElement "item"
+        |> nested "link"
+    --> class "menu__item--link"
 
 -}
 nested : String -> ClassName -> Attribute msg
@@ -136,15 +139,15 @@ nested name =
 
 {-| Add new elements from list and convert it all to `Html.Attribute msg`.
 
-    >>> import Html.Attributes exposing (class)
+    import Html.Attributes exposing (class)
 
-    >>> namespace "menu"
-    ... |> nestMany ["item", "link"]
-    class "menu__item--link"
+    namespace "menu"
+        |> nestMany ["item", "link"]
+    --> class "menu__item--link"
 
-    >>> namespace "menu"
-    ... |> nestMany ["item"]
-    class "menu__item"
+    namespace "menu"
+        |> nestMany ["item"]
+    --> class "menu__item"
 
 -}
 nestMany : List String -> ClassName -> Attribute msg
@@ -154,16 +157,16 @@ nestMany listToAdd =
 
 {-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
 
-    >>> import Html.Attributes exposing (class)
+    import Html.Attributes exposing (class)
 
-    >>> namespace "menu"
-    ... |> addElement "item"
-    ... |> withStates ["active", "highlighted"]
-    class "menu__item active highlighted"
+    namespace "menu"
+        |> addElement "item"
+        |> withStates ["active", "highlighted"]
+    --> class "menu__item active highlighted"
 
-    >>> namespace "menu"
-    ... |> withStates []
-    class "menu"
+    namespace "menu"
+        |> withStates []
+    --> class "menu"
 
 -}
 withStates : List String -> ClassName -> Attribute msg
