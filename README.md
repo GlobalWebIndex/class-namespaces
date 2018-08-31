@@ -41,18 +41,18 @@ main =
     let
         navClass =
             moduleClass
-                |> WeakCss.addElement "nav"
+                |> WeakCss.add "nav"
 
         itemClass =
             navClass
-                |> WeakCss.addElement "item"
+                |> WeakCss.add "item"
     in
     Html.aside
         [ moduleClass |> WeakCss.toClass ]
         [ Html.nav
             [ navClass |> WeakCss.toClass ]
             [ Html.ul
-                [ navClass |> WeakCss.nested "list" ]
+                [ navClass |> WeakCss.nest "list" ]
                 [ Html.li [ itemClass |> WeakCss.withStates [] ] [ Html.text "first item" ]
                 , Html.li [ itemClass |> WeakCss.withStates [ "active" ] ] [ Html.text "second active item" ]
                 ]
