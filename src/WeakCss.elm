@@ -1,8 +1,7 @@
 module WeakCss exposing
     ( ClassName, namespace
-    , addElement
-    , toClass, nested, withStates
-    , addMany, nestMany
+    , add , addMany
+    , toClass, nest, nestMany, withStates
     )
 
 {-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
@@ -16,12 +15,12 @@ style class names.
 
 # Adding Elements
 
-@docs addElemen, addMany
+@docs add, addMany
 
 
 # Convert to Attribute
 
-@docs toClass, nested, nestMany, withStates
+@docs toClass, nest, nestMany, withStates
 
 -}
 
@@ -73,8 +72,8 @@ namespace name =
     --> class "menu__list"
 
 -}
-addElement : String -> ClassName -> ClassName
-addElement name (ClassName classNamespace list) =
+add : String -> ClassName -> ClassName
+add name (ClassName classNamespace list) =
     ClassName classNamespace <| Escape.sanitize name :: list
 
 
@@ -92,7 +91,7 @@ addElement name (ClassName classNamespace list) =
 addMany : List String -> ClassName -> ClassName
 addMany listToAdd className =
     List.map Escape.sanitize listToAdd
-        |> List.foldl addElement className
+        |> List.foldl add className
 
 
 
@@ -132,9 +131,9 @@ toClass =
     --> class "menu__item--link"
 
 -}
-nested : String -> ClassName -> Attribute msg
-nested name =
-    toClass << addElement name
+nest : String -> ClassName -> Attribute msg
+nest name =
+    toClass << add name
 
 
 {-| Add new elements from list and convert it all to `Html.Attribute msg`.
