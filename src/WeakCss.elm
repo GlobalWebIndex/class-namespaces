@@ -66,7 +66,7 @@ namespace name =
     import Html.Attributes exposing (class)
 
     namespace "menu"
-        |> addElement "list"
+        |> add "list"
         |> toClass
 
     --> class "menu__list"
@@ -107,7 +107,7 @@ addMany listToAdd className =
     --> class "menu"
 
     namespace "menu"
-        |> addElement "list"
+        |> add "list"
         |> toClass
     --> class "menu__list"
 
@@ -122,12 +122,12 @@ toClass =
     import Html.Attributes exposing (class)
 
     namespace "menu"
-        |> nested "item"
+        |> nest "item"
     --> class "menu__item"
 
     namespace "menu"
-        |> addElement "item"
-        |> nested "link"
+        |> add "item"
+        |> nest "link"
     --> class "menu__item--link"
 
 -}
@@ -159,7 +159,7 @@ nestMany listToAdd =
     import Html.Attributes exposing (class)
 
     namespace "menu"
-        |> addElement "item"
+        |> add "item"
         |> withStates ["active", "highlighted"]
     --> class "menu__item active highlighted"
 
