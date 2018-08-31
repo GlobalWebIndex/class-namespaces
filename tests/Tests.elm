@@ -1,14 +1,12 @@
-module Tests exposing (..)
-
-import Test exposing (..)
-import Expect
-import Html.Attributes exposing (class)
-
+module Tests exposing (escapeTest, inElement, namespaceClassTest, namespaced)
 
 -- lib
 
-import WeakCss exposing (..)
 import Escape
+import Expect
+import Html.Attributes exposing (class)
+import Test exposing (..)
+import WeakCss exposing (..)
 
 
 namespaced =
@@ -17,14 +15,6 @@ namespaced =
 
 inElement =
     addElement "list" namespaced
-
-
-all : Test
-all =
-    describe "All tests"
-        [ namespaceClassTest
-        , escapeTest
-        ]
 
 
 namespaceClassTest : Test
@@ -42,11 +32,22 @@ namespaceClassTest =
             \() ->
                 nested "item" inElement
                     |> Expect.equal (class "menu__list--item")
+        , test "add multiple elements at once (addMany)" <|
+            \() ->
+                namespaced
+                    |> addMany [ "list", "item", "link" ]
+                    |> toClass
+                    |> Expect.equal (class "menu__list--item--link")
         , test "more elements" <|
             \() ->
                 inElement
                     |> addElement "item"
                     |> nested "link"
+                    |> Expect.equal (class "menu__list--item--link")
+        , test "multiple nested elements added at once (nestMany)" <|
+            \() ->
+                namespaced
+                    |> nestMany [ "list", "item", "link" ]
                     |> Expect.equal (class "menu__list--item--link")
         , test "with state" <|
             \() ->
@@ -86,4 +87,17 @@ escapeTest =
             \() ->
                 Escape.sanitize " inva_lid st-ring__name--some-end "
                     |> Expect.equal "inva_lidst-ringnamesome-end"
+        , test "CaPITAL to lowercase" <|
+            \() ->
+                Escape.sanitize "CaPITAL"
+                    |> Expect.equal "capital"
+
+        , test "sanitize - multiline" <|
+            \() ->
+                Escape.sanitize
+                """
+                Lorem Ipsum
+                -dolor sit amet
+                """
+                  |> Expect.equal "loremipsum-dolorsitamet"
         ]
