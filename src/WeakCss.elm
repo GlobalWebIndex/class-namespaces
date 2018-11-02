@@ -1,8 +1,14 @@
-module WeakCss exposing
-    ( ClassName, namespace
-    , add, addMany
-    , toClass, nest, nestMany, withStates
-    )
+module WeakCss
+    exposing
+        ( ClassName
+        , add
+        , addMany
+        , namespace
+        , nest
+        , nestMany
+        , toClass
+        , withStates
+        )
 
 {-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
 style class names.
@@ -27,7 +33,6 @@ style class names.
 import Escape
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
-
 
 
 -- Type
@@ -154,23 +159,32 @@ nestMany listToAdd =
     toClass << addMany listToAdd
 
 
-{-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
+{-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attribute msg`.
 
     import Html.Attributes exposing (class)
 
+    isActive =
+        True
+
+    isHighlighted =
+        False
+
     namespace "menu"
         |> add "item"
-        |> withStates ["active", "highlighted"]
-    --> class "menu__item active highlighted"
+        |> withStates
+            [ ( isActive, "active" )
+            , ( isHighlighted, "highlighted" )
+            ]
+    --> class "menu__item active"
 
     namespace "menu"
         |> withStates []
     --> class "menu"
 
 -}
-withStates : List String -> ClassName -> Attribute msg
-withStates state =
-    class << toStringWithStates state
+withStates : List ( Bool, String ) -> ClassName -> Attribute msg
+withStates states =
+    class << toStringWithStates states
 
 
 
@@ -183,7 +197,6 @@ toString (ClassName classNamespace list) =
         spacer acc =
             if String.isEmpty acc then
                 ""
-
             else
                 "--"
 
@@ -200,6 +213,18 @@ toString (ClassName classNamespace list) =
                 ++ List.foldr foldElement "" list
 
 
-toStringWithStates : List String -> ClassName -> String
+toStringWithStates : List ( Bool, String ) -> ClassName -> String
 toStringWithStates states className =
-    toString className ++ List.foldl (\s acc -> acc ++ " " ++ Escape.sanitize s) "" states
+    let
+        activeStates : List String
+        activeStates =
+            states
+                |> List.filterMap
+                    (\( state, string ) ->
+                        if state then
+                            Just string
+                        else
+                            Nothing
+                    )
+    in
+    toString className ++ List.foldl (\s acc -> acc ++ " " ++ Escape.sanitize s) "" activeStates

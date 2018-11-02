@@ -49,12 +49,24 @@ namespaceClassTest =
                 namespaced
                     |> nestMany [ "list", "item", "link" ]
                     |> Expect.equal (class "menu__list--item--link")
+        , test "with states" <|
+            \() ->
+                inElement
+                    |> add "item"
+                    |> withStates
+                        [ ( True, "active" )
+                        , ( True, "edited" )
+                        ]
+                    |> Expect.equal (class "menu__list--item active edited")
         , test "with state" <|
             \() ->
                 inElement
                     |> add "item"
-                    |> withStates [ "active", "edited" ]
-                    |> Expect.equal (class "menu__list--item active edited")
+                    |> withStates
+                        [ ( True, "active" )
+                        , ( False, "edited" )
+                        ]
+                    |> Expect.equal (class "menu__list--item active")
         , test "with empty state" <|
             \() ->
                 inElement
