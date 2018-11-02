@@ -163,17 +163,19 @@ nestMany listToAdd =
 
     import Html.Attributes exposing (class)
 
+    isActive : Bool
     isActive =
         True
 
+    isHighlighted : Bool
     isHighlighted =
         False
 
     namespace "menu"
         |> add "item"
         |> withStates
-            [ ( isActive, "active" )
-            , ( isHighlighted, "highlighted" )
+            [ ( "active", isActive )
+            , ( "highlighted", isHighlighted )
             ]
     --> class "menu__item active"
 
@@ -182,7 +184,7 @@ nestMany listToAdd =
     --> class "menu"
 
 -}
-withStates : List ( Bool, String ) -> ClassName -> Attribute msg
+withStates : List ( String, Bool ) -> ClassName -> Attribute msg
 withStates states =
     class << toStringWithStates states
 
@@ -213,14 +215,14 @@ toString (ClassName classNamespace list) =
                 ++ List.foldr foldElement "" list
 
 
-toStringWithStates : List ( Bool, String ) -> ClassName -> String
+toStringWithStates : List ( String, Bool ) -> ClassName -> String
 toStringWithStates states className =
     let
         activeStates : List String
         activeStates =
             states
                 |> List.filterMap
-                    (\( state, string ) ->
+                    (\( string, state ) ->
                         if state then
                             Just string
                         else

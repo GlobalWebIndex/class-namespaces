@@ -54,8 +54,8 @@ namespaceClassTest =
                 inElement
                     |> add "item"
                     |> withStates
-                        [ ( True, "active" )
-                        , ( True, "edited" )
+                        [ ( "active", True )
+                        , ( "edited", True )
                         ]
                     |> Expect.equal (class "menu__list--item active edited")
         , test "with state" <|
@@ -63,8 +63,8 @@ namespaceClassTest =
                 inElement
                     |> add "item"
                     |> withStates
-                        [ ( True, "active" )
-                        , ( False, "edited" )
+                        [ ( "active", True )
+                        , ( "edited", False )
                         ]
                     |> Expect.equal (class "menu__list--item active")
         , test "with empty state" <|

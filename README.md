@@ -56,7 +56,7 @@ main =
             [ Html.ul
                 [ navClass |> WeakCss.nest "list" ]
                 [ Html.li [ itemClass |> WeakCss.withStates [] ] [ Html.text "first item" ]
-                , Html.li [ itemClass |> WeakCss.withStates [ (isActive, "active") ] ] [ Html.text "second active item" ]
+                , Html.li [ itemClass |> WeakCss.withStates [ ( "active", isActive ) ] ] [ Html.text "second active item" ]
                 ]
             ]
         ]
