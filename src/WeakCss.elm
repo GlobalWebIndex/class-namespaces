@@ -1,14 +1,8 @@
-module WeakCss
-    exposing
-        ( ClassName
-        , add
-        , addMany
-        , namespace
-        , nest
-        , nestMany
-        , toClass
-        , withStates
-        )
+module WeakCss exposing
+    ( ClassName, namespace
+    , add, addMany
+    , toClass, nest, nestMany, withStates
+    )
 
 {-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
 style class names.
@@ -33,6 +27,7 @@ style class names.
 import Escape
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
+
 
 
 -- Type
@@ -199,6 +194,7 @@ toString (ClassName classNamespace list) =
         spacer acc =
             if String.isEmpty acc then
                 ""
+
             else
                 "--"
 
@@ -225,6 +221,7 @@ toStringWithStates states className =
                     (\( string, state ) ->
                         if state then
                             Just string
+
                         else
                             Nothing
                     )
