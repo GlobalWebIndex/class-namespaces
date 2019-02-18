@@ -154,23 +154,34 @@ nestMany listToAdd =
     toClass << addMany listToAdd
 
 
-{-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attrinute msg`.
+{-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attribute msg`.
 
     import Html.Attributes exposing (class)
 
+    isActive : Bool
+    isActive =
+        True
+
+    isHighlighted : Bool
+    isHighlighted =
+        False
+
     namespace "menu"
         |> add "item"
-        |> withStates ["active", "highlighted"]
-    --> class "menu__item active highlighted"
+        |> withStates
+            [ ( "active", isActive )
+            , ( "highlighted", isHighlighted )
+            ]
+    --> class "menu__item active"
 
     namespace "menu"
         |> withStates []
     --> class "menu"
 
 -}
-withStates : List String -> ClassName -> Attribute msg
-withStates state =
-    class << toStringWithStates state
+withStates : List ( String, Bool ) -> ClassName -> Attribute msg
+withStates states =
+    class << toStringWithStates states
 
 
 
@@ -200,6 +211,19 @@ toString (ClassName classNamespace list) =
                 ++ List.foldr foldElement "" list
 
 
-toStringWithStates : List String -> ClassName -> String
+toStringWithStates : List ( String, Bool ) -> ClassName -> String
 toStringWithStates states className =
-    toString className ++ List.foldl (\s acc -> acc ++ " " ++ Escape.sanitize s) "" states
+    let
+        activeStates : List String
+        activeStates =
+            states
+                |> List.filterMap
+                    (\( string, state ) ->
+                        if state then
+                            Just string
+
+                        else
+                            Nothing
+                    )
+    in
+    toString className ++ List.foldl (\s acc -> acc ++ " " ++ Escape.sanitize s) "" activeStates

@@ -44,6 +44,10 @@ main =
         itemClass =
             navClass
                 |> WeakCss.add "item"
+
+        isActive =
+            -- presumably some actual logic here
+            True
     in
     Html.aside
         [ moduleClass |> WeakCss.toClass ]
@@ -52,7 +56,7 @@ main =
             [ Html.ul
                 [ navClass |> WeakCss.nest "list" ]
                 [ Html.li [ itemClass |> WeakCss.withStates [] ] [ Html.text "first item" ]
-                , Html.li [ itemClass |> WeakCss.withStates [ "active" ] ] [ Html.text "second active item" ]
+                , Html.li [ itemClass |> WeakCss.withStates [ ( "active", isActive ) ] ] [ Html.text "second active item" ]
                 ]
             ]
         ]
