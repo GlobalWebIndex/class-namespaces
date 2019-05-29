@@ -1,1 +1,11 @@
 language: elm
+elm:
+  - elm0.19.0
+
+install:
+  - yarn install
+
+script:
+  - elm-format --validate .
+  - yarn test
+  - yarn verify-examples
