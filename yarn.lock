@@ -241,7 +241,7 @@ chalk@2.1.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-chalk@^2.3.0:
+chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -480,17 +480,17 @@ elm-test@0.19.0-rev6, elm-test@^0.19.0-rev6:
   optionalDependencies:
     fsevents "1.2.4"
 
-elm-verify-examples@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/elm-verify-examples/-/elm-verify-examples-3.1.0.tgz#0694503819fa4cc75e05a58bcc9a18cde4fd6914"
-  integrity sha512-zNjiwP8vR83caUDKXa+BK3S9wLxLy5DB/2qDfewI5OuEevv+QwZUh1sSZbhNtkgKYdL7pLFX0s+Sp5tvAbJoCQ==
+elm-verify-examples@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/elm-verify-examples/-/elm-verify-examples-4.0.0.tgz#677e4bff246a3e76293df35a4e00198ddc7620db"
+  integrity sha512-oKptkeUX0MBbYJ2Yn5CwaT502O8hwJHubNbeO7redshHnoaLzVvCK3TCS9+Vx1mXW8/GuJ6bfM+PDXXPPX8MNA==
   dependencies:
-    chalk "^2.3.0"
+    chalk "^2.4.2"
     elm-test "0.19.0-rev6"
     fs-extra "^5.0.0"
     mkdirp "^0.5.1"
-    rimraf "^2.6.2"
-    yargs "^10.0.3"
+    rimraf "^2.6.3"
+    yargs "^10.1.2"
 
 elm@^0.19.0-no-deps:
   version "0.19.0-no-deps"
@@ -1665,7 +1665,7 @@ ret@~0.1.10:
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
-rimraf@^2.2.8, rimraf@^2.6.1, rimraf@^2.6.2:
+rimraf@^2.2.8, rimraf@^2.6.1, rimraf@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
@@ -2123,7 +2123,7 @@ yargs-parser@^8.1.0:
   dependencies:
     camelcase "^4.1.0"
 
-yargs@^10.0.3:
+yargs@^10.1.2:
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-10.1.2.tgz#454d074c2b16a51a43e2fb7807e4f9de69ccb5c5"
   integrity sha512-ivSoxqBGYOqQVruxD35+EyCFDYNEFL/Uo6FcOnz+9xZdZzK0Zzw4r4KhbrME1Oo2gOggwJod2MnsdamSG7H9ig==
