@@ -205,7 +205,7 @@ toString (ClassName classNamespace list) =
         [] ->
             classNamespace
 
-        head :: tail ->
+        _ :: _ ->
             classNamespace
                 ++ "__"
                 ++ List.foldr foldElement "" list
