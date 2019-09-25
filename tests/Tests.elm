@@ -4,6 +4,7 @@ module Tests exposing (escapeTest, inElement, namespaceClassTest, namespaced)
 
 import Escape
 import Expect
+import Fuzz
 import Html.Attributes exposing (class)
 import Test exposing (..)
 import WeakCss exposing (..)
@@ -99,6 +100,10 @@ escapeTest =
             \() ->
                 Escape.sanitize " inva_lid st-ring__name--some-end "
                     |> Expect.equal "inva_lidst-ringnamesome-end"
+        , test "sanitize - complex example" <|
+            \() ->
+                Escape.sanitize "  98 hel ___ žščř--ďťň  lo"
+                    |> Expect.equal "hello"
         , test "CaPITAL to lowercase" <|
             \() ->
                 Escape.sanitize "CaPITAL"
@@ -111,4 +116,24 @@ escapeTest =
                 -dolor sit amet
                 """
                     |> Expect.equal "loremipsum-dolorsitamet"
+        , fuzz Fuzz.string "Sanitize random String" <|
+            \str ->
+                Escape.sanitize str
+                    |> (\sanitized -> hasOnlyValidCharacters sanitized && doesNotStartWithDigit sanitized)
+                    |> Expect.true "sanitized string should only contain valid characters"
         ]
+
+
+hasOnlyValidCharacters : String -> Bool
+hasOnlyValidCharacters =
+    String.all (\c -> Char.isDigit c || Char.isLower c || c == '_' || c == '-')
+
+
+doesNotStartWithDigit : String -> Bool
+doesNotStartWithDigit s =
+    case String.uncons s of
+        Nothing ->
+            True
+
+        Just ( firsChar, _ ) ->
+            not <| Char.isDigit firsChar
