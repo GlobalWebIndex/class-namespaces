@@ -99,6 +99,10 @@ escapeTest =
             \() ->
                 Escape.sanitize " inva_lid st-ring__name--some-end "
                     |> Expect.equal "inva_lidst-ringnamesome-end"
+        , test "sanitize - complex example" <|
+            \() ->
+                Escape.sanitize "  98 hel ___ žščř--ďťň  lo"
+                    |> Expect.equal "hello"
         , test "CaPITAL to lowercase" <|
             \() ->
                 Escape.sanitize "CaPITAL"

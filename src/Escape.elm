@@ -1,28 +1,40 @@
-module Escape exposing (sanitize, sanitizeNamespace)
+module Escape exposing
+    ( sanitize
+    , sanitizeNamespace
+    )
 
 import Regex exposing (Regex)
 
 
-caseInsensitiveOption : Regex.Options
-caseInsensitiveOption =
-    { caseInsensitive = True
-    , multiline = False
-    }
-
-
-removeByRegex regex string =
-    Regex.fromStringWith caseInsensitiveOption regex
-        |> Maybe.map (\r -> String.toLower <| Regex.replace r (\_ -> "") string)
-        |> Maybe.withDefault string
-
-
 sanitizeNamespace : String -> String
-sanitizeNamespace str =
-    str
-        |> removeByRegex "[^a-z0-9\\-_]"
-        |> removeByRegex "^[\\d]+"
+sanitizeNamespace =
+    removeByRegex stuffInvalidInNamespace
 
 
 sanitize : String -> String
-sanitize str =
-    removeByRegex "_{2,}|-{2,}" <| sanitizeNamespace str
+sanitize =
+    removeByRegex stuffInvalidInClass
+
+
+removeByRegex : Regex -> String -> String
+removeByRegex regex =
+    String.toLower << Regex.replace regex (\_ -> "")
+
+
+stuffInvalidInNamespace : Regex
+stuffInvalidInNamespace =
+    Maybe.withDefault Regex.never <| Regex.fromString "^[^_a-zA-Z]+|[^\\w\\-]"
+
+
+{-| This regex will match:
+
+  - all chars at the beginning which are not letters or '\_'
+  - any chars which are not in: a-zA-Z0-9\_ (corresponds to \\w) and '-'
+  - 2 or more consecutive occurrences of '\_' '-'
+
+Based on <https://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-class-names-selectors#answer-449000>
+
+-}
+stuffInvalidInClass : Regex
+stuffInvalidInClass =
+    Maybe.withDefault Regex.never <| Regex.fromString "^[^_a-zA-Z]+|[^\\w\\-]|_{2,}|-{2,}"
