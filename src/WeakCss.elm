@@ -1,7 +1,7 @@
 module WeakCss exposing
     ( ClassName, namespace
     , add, addMany
-    , toClass, nest, nestMany, withStates, withStates_
+    , toClass, nest, nestMany, withStates, withActiveStates
     , toString
     )
 
@@ -21,7 +21,7 @@ style class names.
 
 # Convert to Attribute
 
-@docs toClass, nest, nestMany, withStates, withStates_
+@docs toClass, nest, nestMany, withStates, withActiveStates
 
 
 # Convert to String
@@ -209,16 +209,16 @@ withStates states =
 
     namespace "menu"
         |> add "item"
-        |> withStates_ [ "active", "highlighted" ]
+        |> withActiveStates [ "active", "highlighted" ]
     --> class "menu__item active highlighted"
 
     namespace "menu"
-        |> withStates_ []
+        |> withActiveStates []
     --> class "menu"
 
 -}
-withStates_ : List String -> ClassName -> Attribute msg
-withStates_ states =
+withActiveStates : List String -> ClassName -> Attribute msg
+withActiveStates states =
     Attrs.class << toStringWithStates states
 
 
