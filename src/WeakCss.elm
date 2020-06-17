@@ -1,7 +1,8 @@
 module WeakCss exposing
     ( ClassName, namespace
     , add, addMany
-    , toClass, nest, nestMany, withStates
+    , toClass, nest, nestMany, withStates, withStates_
+    , toString
     )
 
 {-| Abstraction for working with [`Weak Css`](https://github.com/GlobalWebIndex/weak-css)
@@ -20,13 +21,18 @@ style class names.
 
 # Convert to Attribute
 
-@docs toClass, nest, nestMany, withStates
+@docs toClass, nest, nestMany, withStates, withStates_
+
+
+# Convert to String
+
+@docs toString
 
 -}
 
 import Escape
 import Html exposing (Attribute)
-import Html.Attributes exposing (class)
+import Html.Attributes as Attrs
 
 
 
@@ -114,7 +120,7 @@ addMany listToAdd className =
 -}
 toClass : ClassName -> Attribute msg
 toClass =
-    class << toString
+    Attrs.class << toString
 
 
 {-| Add new element and convert to `Html.Attribute msg`.
@@ -181,13 +187,47 @@ nestMany listToAdd =
 -}
 withStates : List ( String, Bool ) -> ClassName -> Attribute msg
 withStates states =
-    class << toStringWithStates states
+    let
+        activeStates : List String
+        activeStates =
+            states
+                |> List.filterMap
+                    (\( string, state ) ->
+                        if state then
+                            Just string
+
+                        else
+                            Nothing
+                    )
+    in
+    Attrs.class << toStringWithStates activeStates
+
+
+{-| Add state to last element [`ClassName`](#ClassName) and convert to `Html.Attribute msg`.
+
+    import Html.Attributes exposing (class)
+
+    namespace "menu"
+        |> add "item"
+        |> withStates_ [ "active", "highlighted" ]
+    --> class "menu__item active highlighted"
+
+    namespace "menu"
+        |> withStates_ []
+    --> class "menu"
+
+-}
+withStates_ : List String -> ClassName -> Attribute msg
+withStates_ states =
+    Attrs.class << toStringWithStates states
 
 
 
 -- Private
 
 
+{-| Convert the `ClassName` into a `String`
+-}
 toString : ClassName -> String
 toString (ClassName classNamespace list) =
     let
@@ -211,19 +251,7 @@ toString (ClassName classNamespace list) =
                 ++ List.foldr foldElement "" list
 
 
-toStringWithStates : List ( String, Bool ) -> ClassName -> String
+toStringWithStates : List String -> ClassName -> String
 toStringWithStates states className =
-    let
-        activeStates : List String
-        activeStates =
-            states
-                |> List.filterMap
-                    (\( string, state ) ->
-                        if state then
-                            Just string
-
-                        else
-                            Nothing
-                    )
-    in
-    toString className ++ List.foldl (\s acc -> acc ++ " " ++ Escape.sanitize s) "" activeStates
+    (toString className :: List.map Escape.sanitize states)
+        |> String.join " "
