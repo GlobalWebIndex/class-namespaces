@@ -8,4 +8,3 @@ install:
 script:
   - elm-format --validate .
   - yarn test
-  - yarn verify-examples
